@@ -1,0 +1,55 @@
+.homeContainer {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    width: 33vw;
+}
+
+.recipeCard {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    margin-bottom: 4rem;
+    background-color: #fff;
+    box-shadow: 15px 13px 40px hsla(200, 20%, 50%, 0.35);
+    border-radius: 2rem;
+    min-height: 300px;
+    /*Lined paper background*/
+    background-size: 100% 1.2em;
+    background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+    linear-gradient(#eee .05em, transparent .05em);
+    cursor: pointer;
+    overflow-x: hidden;
+}
+
+.dishContainer {
+    margin-bottom: 1.25rem;
+    margin-left: 5rem;
+}
+
+.directionsContainer {
+    margin-left: 5rem;
+    flex-grow: 1;
+}
+
+.directionsContainer li {
+    margin-left: 2rem;
+
+}
+
+.redLine {
+    width: 100%;
+    border-top: 2px solid #bd1226;
+    margin-left: -2rem;
+    padding-top: 2px;
+}
+
+.footerContainer {
+    display: flex;
+    height: 2rem;
+    justify-content: flex-end;
+}
+
+.footerContainer:hover {
+    color: var(--text-highlight);
+}

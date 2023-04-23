@@ -1,0 +1,13 @@
+.navbarContainer {
+    display: flex;
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: darkviolet;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbarContainer>a {
+    color: white;
+}
