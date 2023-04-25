@@ -20,3 +20,4 @@ Woktok is a recipe sharing based social media platform designed to provide users
 
 ##Usage
 Upon opening the application, users can browse recipes without logging in. To upload and save recipes, users need to create an account and log in. Once logged in, users can upload their own recipes, favorite recipes, follow other users, and see their recipes. Recipes can be searched for based on keywords, ingredients, or dietary restrictions.
+ 
