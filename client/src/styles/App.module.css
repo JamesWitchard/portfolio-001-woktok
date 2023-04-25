@@ -1,14 +1,4 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-:root {
-  --text-color: black;
-  --text-highlight: #ffb451;
-  --navbar-height: 2rem;
-}
 
 body {
   background: #f3f3f3;

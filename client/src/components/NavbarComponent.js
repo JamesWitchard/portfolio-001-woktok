@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import "./Navbar.styles.css"
+import style from "../styles/components/NavbarComponent.module.css"
 
-const Navbar = () => {
+const NavbarComponent = () => {
 	return (
-		<div className="navbarContainer">
+		<div className={style.container}>
 			<Link to="/">Home Page</Link>
 			<Link to="/add-recipe">Add a Recipe</Link>
 			<Link to="/login">Login</Link>
@@ -13,4 +13,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default NavbarComponent;

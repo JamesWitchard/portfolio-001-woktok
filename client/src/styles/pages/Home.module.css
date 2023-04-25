@@ -1,0 +1,12 @@
+.container {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    width: 33vw;
+}
+
+.recipeContainer {
+    height: 300px;
+    margin-bottom: 4rem;
+    cursor: pointer;
+}

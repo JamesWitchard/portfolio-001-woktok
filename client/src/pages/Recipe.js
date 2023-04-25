@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import "./Recipe.stlyes.css";
+import RecipeCard from "../components/RecipeCard";
+import style from "../styles/pages/Recipe.module.css";
 
 const Recipe= () => {
 	const [recipeData, setRecipeData] = useState({});
@@ -33,10 +34,6 @@ const Recipe= () => {
 		})
 	}
 
-	useEffect(() => {
-		console.log(commentInput)
-	}, [commentInput]);
-
 	// Fetch data from database
 	useEffect(() => {
 		axios.get(`http://localhost:3001/recipes/${id}`).then((res) => {
@@ -53,59 +50,48 @@ const Recipe= () => {
 	})
 
 	return (
-		<div className="contentContainer">
-			<div className="recipePanel">
-				<div className="recipeContainer">
-					<div className="dishContainer">
-						<h1>{recipeData.dish}</h1>
-					</div>
-					<div className="directionsContainer">
-						<ol>
-							{recipeData.directions?.map((step, ind) => {
-								return <li key={ind}>{step}</li>;
-							})}
-						</ol>
-					</div>
-					<div className="redLine"/>
-					<div className="footerContainer">{recipeData.author}</div>
+		<div className={style.container}>
+			<div className={style.recipeContainer}>
+				<div className={style.recipePanel}>
+					<RecipeCard recipeData={recipeData}/>
 				</div>
 			</div>
-			<div className="sidebarContainer">
-				<div className="postInfo">
-					<div className="authorInfo">
-						<div className="profilePic"/>
-						<div className="author">
-							<span className="authorUsername">{recipeData.author}</span>
-							<div className="authorProfile">
-								<span className="authorName">Real Name</span>
+			<div className={style.sidebarContainer}>
+				<div className={style.postInfo}>
+					<div className={style.authorInfo}>
+						<div className={style.profilePic}/>
+						<div className={style.author}>
+							<span className={style.authorUsername}>{recipeData.author}</span>
+							<div className={style.authorProfile}>
+								<span className={style.authorName}>Real Name</span>
 								·
-								<span className="lastOnline">2d ago</span>
+								<span className={style.lastOnline}>2d ago</span>
 							</div>
 						</div>
 						<button>Follow</button>
 					</div>
-					<div className="descriptionSection">
-						<span className="description">
+					<div className={style.descriptionSection}>
+						<span className={style.description}>
 							{recipeData.descriptionText ? recipeData.descriptionText :
 								"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, unde! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab repellat soluta velit. Inventore, iure totam."}
 
 						</span>
-						<div className="hashtags">
-							<span className="important">Example</span>
-							<span className="important">Viral</span>
+						<div className={style.hashtags}>
+							<span className={style.important}>Example</span>
+							<span className={style.important}>Viral</span>
 							<span>Steak</span>
 							<span>Kidney</span>
 							<span>dinner</span>
 							<span>meal</span>
 						</div>
 					</div>
-					<div className="shareSection">
-						<div className="embeds">
-							<div className="stats">
+					<div className={style.shareSection}>
+						<div className={style.embeds}>
+							<div className={style.stats}>
 								<button>Likes</button>
 								<button>Comments</button>
 							</div>
-							<div className="sharing">
+							<div className={style.sharing}>
 								<button>Embed</button>
 								<button>Friends</button>
 								<button>WhatsApp</button>
@@ -114,20 +100,20 @@ const Recipe= () => {
 								<button>Other</button>
 							</div>
 						</div>
-						<div className="copyLink">
+						<div className={style.copyLink}>
 							<span>{pageUrl}</span>
 							<button onClick={handleCopyToClipboard}>Copy Link</button>
 						</div>
 					</div>
 				</div>
-				<div className="commentsSection">
+				<div className={style.commentsSection}>
 					<ul>
 						{commentsData.map((comment, id) => {
 							return <li key={id}>{comment.commentBody}</li>;
 						})}
 					</ul>
 				</div>
-				<div className="addComment">
+				<div className={style.addComment}>
 					<input type="text" placeholder="Input your comment"
 					       value={commentInput}
 					       onChange={e => setCommentInput(e.target.value)}/>

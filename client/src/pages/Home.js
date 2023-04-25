@@ -1,8 +1,9 @@
-import React from 'react';
-import {useEffect, useState} from "react";
-import {useNavigate} from 'react-router-dom'
+import React, {useEffect, useState} from 'react';
+import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
-import "./Home.styles.css"
+import style from "../styles/pages/Home.module.css";
+import {useNavigate} from "react-router-dom";
+
 
 const Home = () => {
 	const [listOfRecipes, setListOfRecipes] = useState([]);
@@ -15,23 +16,13 @@ const Home = () => {
 	}, []);
 
 	return (
-		<div className="homeContainer">
-			{listOfRecipes.map((recipe, key) => {
+		<div className={style.container}>
+			{listOfRecipes.map((recipe) => {
 				return (
-					<div className="recipeCard" key={recipe.createdAt} onClick={() => {navigate(`/recipe/${recipe.id}`)}}>
-						<div className="dishContainer">
-							<h1>{recipe.dish}</h1>
-							<h3>{recipe.descriptionText}</h3>
-						</div>
-						<div className="directionsContainer">
-							<ol>
-								{recipe.directions.map((step, ind) => {
-									return <li key={ind}>{step}</li>
-								})}
-							</ol>
-						</div>
-						<div className="redLine"/>
-						<div className="footerContainer">{recipe.author}</div>
+					<div className={style.recipeContainer} onClick={() => {
+						navigate(`/recipe/${recipe.id}`)
+					}}>
+						<RecipeCard key={recipe.createdAt} recipeData={recipe}/>
 					</div>
 				);
 			})}

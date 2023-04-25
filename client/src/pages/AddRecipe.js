@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup'
 import axios from "axios";
-import "./AddRecipe.styles.css"
-import {useNavigate} from "react-router-dom";
+import pageStyle from '../styles/pages/AddRecipe.module.css'
+import formStyle from '../styles/components/Form.module.css'
 
 const AddRecipe = () => {
 
@@ -71,29 +72,29 @@ const AddRecipe = () => {
 	}
 
 	return (
-		<div className="addRecipePage">
+		<div className={formStyle.container}>
 			<Formik
 				initialValues={initialValues}
 				onSubmit={onSubmit}
 				validationSchema={validationSchema}
 			>
 				{({values, setFieldValue, errors}) => (
-					<Form className="recipeForm">
-						<label>Dish:</label>
+					<Form className={formStyle.form}>
+						<label className={formStyle.required}>Dish:</label>
 						<ErrorMessage name="dish" component="span"/>
 						<Field id="inputDishName" name="dish" placeholder="Name of the Dish"/>
 						<label>Description:</label>
 						<Field id="inputDescription" name="description" placeholder="A brief description of the dish."/>
-						<label htmlFor="">Ingredients:</label>
+						<label className={formStyle.required}>Ingredients:</label>
 						<ErrorMessage name="ingredient" component="span"/>
 						{ ingredientsList.length > 0 && (
-							<div className="adder ingredients">
+							<div className={`${pageStyle.adder} ${pageStyle.ingredients}`}>
 								<ul>
 									{ingredientsList && ingredientsList.map((ingredient, key) => {
 										return (
-											<div className="addedEntry" key={key}>
+											<div className={pageStyle.addedEntry} key={key}>
 												<li>{ingredient} </li>
-												<span className="delete" onClick={
+												<span className={pageStyle.delete} onClick={
 													() => handleDelete(ingredientsList, setIngredientsList, key)
 												}>x</span>
 											</div>
@@ -103,21 +104,21 @@ const AddRecipe = () => {
 								</ul>
 							</div>
 						)}
-						<div className="adderContainer">
-								<Field className="inputIngredient" name="ingredient" placeholder="Ingredients..."/>
-								<button disabled={!values.ingredient} type="button"
+						<div className={pageStyle.adderContainer}>
+								<Field className={pageStyle.inputIngredient} name="ingredient" placeholder="Ingredients..."/>
+								<button className={formStyle.btn} disabled={!values.ingredient} type="button"
 								        onClick={() => addIngredient(values.ingredient, setFieldValue)}>+</button>
 							</div>
-						<label>Directions:</label>
+						<label className={formStyle.required}>Directions:</label>
 						<ErrorMessage name="direction" component="span"/>
 						{ directionsList.length > 0 && (
-							<div className="adder directions">
+							<div className={`${pageStyle.adder} ${pageStyle.directions}`}>
 								<ol>
 									{directionsList && directionsList.map((direction, key) => {
 										return (
-											<div className="addedEntry" key={key}>
+											<div className={pageStyle.addedEntry} key={key}>
 												<li>{direction} </li>
-												<span className="delete" onClick={
+												<span className={pageStyle.delete} onClick={
 													() => handleDelete(directionsList, setDirectionsList, key)
 												}>x</span>
 											</div>
@@ -126,18 +127,18 @@ const AddRecipe = () => {
 								</ol>
 							</div>
 						)}
-						<div className="adderContainer">
-							<Field className="inputIngredient" name="direction" placeholder="Directions..."/>
-							<button disabled={!values.direction} type="button"
+						<div className={pageStyle.adderContainer}>
+							<Field className={pageStyle.inputIngredient} name="direction" placeholder="Directions..."/>
+							<button className={formStyle.btn} disabled={!values.direction} type="button"
 							        onClick={() => addDirection(values.direction, setFieldValue)}>+</button>
 						</div>
-						<label>Author:</label>
+						<label className={formStyle.required}>Author:</label>
 						<ErrorMessage name="author" component="span"/>
 						<Field id="inputAuthorName" name="author" placeholder="Richard"/>
 
-						<div className="spacer"> </div>
+						<div className={pageStyle.spacer}> </div>
 
-						<button type="submit" disabled={Object.keys(errors).length > 0}>Submit</button>
+						<button className={formStyle.btn} type="submit" disabled={Object.keys(errors).length > 0}>Submit</button>
 					</Form>
 				)}
 

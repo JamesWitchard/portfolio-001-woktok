@@ -1,4 +1,4 @@
-.navbarContainer {
+.container {
     display: flex;
     width: 100%;
     height: var(--navbar-height);
@@ -8,6 +8,6 @@
     gap: 2rem;
 }
 
-.navbarContainer>a {
+.container>a {
     color: white;
 }
