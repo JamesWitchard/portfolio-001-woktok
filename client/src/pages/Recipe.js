@@ -3,9 +3,13 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import RecipeCard from "../components/RecipeCard";
 import style from "../styles/pages/Recipe.module.css";
+import CommentCard from "../components/CommentCard";
+import ReactTimeAgo from "react-time-ago";
+import BlankUser from "../components/BlankUser";
 
 const Recipe= () => {
 	const [recipeData, setRecipeData] = useState({});
+	const [recipeCreatedDate, setRecipeCreatedDate] = useState(new Date());
 	const [commentsData, setCommentsData] = useState([])
 	const [pageUrl, setPageUrl] = useState("");
 	const [commentInput, setCommentInput] = useState("")
@@ -27,10 +31,24 @@ const Recipe= () => {
 		axios.post("http://localhost:3001/comments",{
 			commentBody: commentInput,
 			RecipeId: id
+		}, {
+			headers: {
+				accessToken: localStorage.getItem("accessToken")
+			},
 		}).then(res => {
-			const newComment = {commentBody: commentInput}
-			setCommentsData([...commentsData, newComment]);
-			setCommentInput("");
+			if (res.data.error)
+				console.log(res.data.error)
+			else {
+				const addedCommentTime = new Date();
+				const newComment = {
+					commentBody: commentInput,
+					createdAt: addedCommentTime,
+					updatedAt: addedCommentTime,
+					username: res.data.username,
+				};
+				setCommentsData([...commentsData, newComment]);
+				setCommentInput("");
+			}
 		})
 	}
 
@@ -38,6 +56,7 @@ const Recipe= () => {
 	useEffect(() => {
 		axios.get(`http://localhost:3001/recipes/${id}`).then((res) => {
 			setRecipeData(res.data);
+			setRecipeCreatedDate(new Date(res.data.createdAt));
 		});
 		axios.get(`http://localhost:3001/comments/${id}`).then((res) =>{
 			setCommentsData(res.data);
@@ -59,13 +78,15 @@ const Recipe= () => {
 			<div className={style.sidebarContainer}>
 				<div className={style.postInfo}>
 					<div className={style.authorInfo}>
-						<div className={style.profilePic}/>
+						<div className={style.profilePic}>
+							<BlankUser />
+						</div>
 						<div className={style.author}>
 							<span className={style.authorUsername}>{recipeData.author}</span>
 							<div className={style.authorProfile}>
 								<span className={style.authorName}>Real Name</span>
 								·
-								<span className={style.lastOnline}>2d ago</span>
+								<ReactTimeAgo date={recipeCreatedDate} timeStyle={"mini"} />
 							</div>
 						</div>
 						<button>Follow</button>
@@ -107,11 +128,9 @@ const Recipe= () => {
 					</div>
 				</div>
 				<div className={style.commentsSection}>
-					<ul>
-						{commentsData.map((comment, id) => {
-							return <li key={id}>{comment.commentBody}</li>;
-						})}
-					</ul>
+					{commentsData.map((comment, id) => {
+						return <CommentCard key={id} content={comment}/>;
+					})}
 				</div>
 				<div className={style.addComment}>
 					<input type="text" placeholder="Input your comment"

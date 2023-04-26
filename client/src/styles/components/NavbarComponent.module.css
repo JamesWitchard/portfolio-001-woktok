@@ -5,9 +5,28 @@
     background-color: darkviolet;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
+}
+
+.container>* {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 1rem;
+}
+
+.container>*:hover {
+    background-color: hsl(282, 100%, 50%);
 }
 
 .container>a {
     color: white;
+}
+
+.logout {
+    color: white;
+    text-decoration: underline;
+    user-select: none;
+    cursor: pointer;
 }

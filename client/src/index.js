@@ -5,6 +5,10 @@ import reportWebVitals from './reportWebVitals';
 import "./styles/index.css";
 import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

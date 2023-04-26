@@ -3,6 +3,7 @@ import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
 import style from "../styles/pages/Home.module.css";
 import {useNavigate} from "react-router-dom";
+import BlankUser from "../components/BlankUser";
 
 
 const Home = () => {
