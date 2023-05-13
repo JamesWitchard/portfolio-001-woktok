@@ -1,19 +1,26 @@
 import {useState, useEffect} from "react";
 import {BrowserRouter as Router, Route, Routes, Link} from "react-router-dom";
-import Home from "./pages/Home.js"
-import AddRecipe from "./pages/AddRecipe";
-import Recipe from "./pages/Recipe";
-import NavbarComponent from "./components/NavbarComponent";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import {Home, AddRecipe, Recipe, Profile, Login, Register} from "./pages";
+import Navbar from "./components/Navbar";
 import style from './styles/App.module.css';
 import {AuthContext} from "./helpers/AuthContext";
 import axios from "axios";
+import Sidebar from "./components/Sidebar";
 
 
 function App() {
-    const [authState, setAuthState] = useState(false);
-    const contextValues = {authState, setAuthState}
+    const [authState, setAuthState] = useState({
+        username: "",
+        id: 0,
+        status: false
+    });
+
+    const [sidebarVisible, setSidebarVisible] = useState(true)
+
+    const contextValues = {
+        authState, setAuthState,
+        sidebarVisible, setSidebarVisible
+    };
 
     useEffect(() => {
         axios.get('http://localhost:3001/auth',{
@@ -22,10 +29,14 @@ function App() {
             }
         }).then(res => {
             if (res.data.error) {
-                setAuthState(false);
+                setAuthState({...authState, status: false});
                 return;
             }
-            setAuthState(true);
+            setAuthState({
+                username: res.data.username,
+                id: res.data.id,
+                status: true
+            });
         })
     }, [])
 
@@ -33,13 +44,16 @@ function App() {
         <div className={style.App}>
             <AuthContext.Provider value={contextValues}>
                 <Router>
-                    <NavbarComponent/>
+                    <Navbar/>
+                    <Sidebar/>
                     <Routes>
                         <Route path="/" exact element={<Home/>}/>
                         <Route path="/login" exact element={<Login/>}/>
                         <Route path="/registration" exact element={<Register/>}/>
                         <Route path="/add-recipe" exact element={<AddRecipe/>}/>
                         <Route path="/recipe/:id" exact element={<Recipe/>}/>
+                        <Route path="/profile/:id" exact element={<Profile />}/>
+                        <Route path="*" element={<h1 style={{marginTop: "4rem"}}>404</h1>}/>
                     </Routes>
                 </Router>
             </AuthContext.Provider>

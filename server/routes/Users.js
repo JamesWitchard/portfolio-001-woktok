@@ -9,6 +9,16 @@ router.get('/', validateToken, (req, res) => {
 	res.json(req.user)
 })
 
+router.get("/:id", async (req, res) => {
+	const userId = req.params.id;
+	const userInfo = await Users.findByPk(userId, {
+		attributes: {
+			exclude: ['password']
+		}
+	});
+	res.json(userInfo);
+});
+
 router.post("/", async (req, res) => {
 	const {username, password} = req.body;
 	bcrypt.hash(password, 10).then(hash => {
@@ -34,7 +44,11 @@ router.post("/login", async (req, res) => {
 			username: user.username,
 			id: user.id
 		}, process.env.ACCESS_TOKEN_SECRET)
-		res.json(accessToken)
+		res.json({
+			token: accessToken,
+			username: user.username,
+			id: user.id
+		})
 	})
 })
 

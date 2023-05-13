@@ -1,0 +1,114 @@
+.container {
+    position: fixed;
+    width: 224px;
+    height: calc(100vh - var(--navbar-height));
+    padding: 20px 0 26px 8px;
+    top: var(--navbar-height);
+    left: 0;
+    background-color: #fff;
+    overflow: auto;
+}
+
+.sidebarMenuItem {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.25s;
+    cursor: pointer;
+}
+
+.sidebarMenuItem:hover {
+    background-color: #f3f3f3;
+}
+
+.sidebarMenuItem {
+    padding-left: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+    gap: 1rem;
+}
+
+.sidebarMenuItem .active {
+    color: darkviolet;
+}
+
+.sidebarContainer > * {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dadada;
+}
+
+.navLinksContainer {}
+
+.loginContainer {
+    font-size: 1.05rem;
+    font-weight: lighter;
+    margin-top: 1rem;
+    padding-inline: 0.5rem;
+
+    color: #aaaaaa;
+}
+
+.loginContainer button {
+    font-size: 1.125rem;
+    color: darkviolet;
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px solid darkviolet;
+    border-radius: 0.25rem;
+    width: 100%;
+    padding: 0.75rem;
+    margin-block: 1rem;
+    cursor: pointer;
+}
+
+.loginContainer button:hover {
+    background-color: hsla(282, 100%, 41%, 0.05);
+}
+
+.loginContainer button:active {
+    background-color: hsla(282, 100%, 41%, 0.20);
+}
+
+.suggestedAccountsContainer {
+    margin-block: 1rem;
+}
+
+.suggestedAccountsContainer h4 {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #aaaaaa;
+}
+
+.suggestedAccountsContainer .accountVisibility {
+    all: unset;
+    display: block;
+    width: fit-content;
+    margin-top: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: darkviolet;
+    cursor: pointer;
+}
+
+.suggestedAccountsContainer .accountVisibility:focus {
+    outline: 1px dashed darkviolet;
+}
+
+.closeIcon {
+    position: absolute;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem;
+    padding: .75rem;
+    background-color: hsl(0, 0%, 85%);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.05s linear;
+}
+
+.closeIcon:hover {
+    background-color: hsl(0, 0%, 100%);
+}

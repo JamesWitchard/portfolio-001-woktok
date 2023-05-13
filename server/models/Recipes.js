@@ -19,10 +19,18 @@ module.exports = (sequelize, DataTypes) => {
 	});
 
 	Recipes.associate = (models) => {
+        Recipes.hasMany(models.Likes, {
+            onDelete: "cascade"
+        })
+
 		Recipes.hasMany(models.Comments, {
 			onDelete: "cascade"
 		})
-	}
+
+		Recipes.hasMany(models.Tags, {
+			onDelete: "cascade",
+		})
+    }
 
 	return Recipes;
 };

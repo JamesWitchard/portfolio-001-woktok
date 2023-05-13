@@ -5,8 +5,64 @@
     width: 33vw;
 }
 
+.cardContainer {
+    display: flex;
+
+}
+
 .recipeContainer {
-    height: 300px;
+    display: flex;
+    width: 33vw;
     margin-bottom: 4rem;
     cursor: pointer;
+}
+
+.postControls {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 4rem;
+    margin-left: 2rem;
+    user-select: none;
+    gap: 1rem;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.likeButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(0, 0%, 85%);
+    padding: 0.5rem;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.likeButton:hover {
+    background-color: hsla(0, 100%, 100%);
+}
+
+.deleteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(0, 0%, 85%);
+    padding: 0.5rem;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: hsla(0, 100%, 100%);
+}
+
+.liked {
+    color: #bd1226;
+
 }

@@ -2,13 +2,19 @@ import React from 'react';
 import ReactTimeAgo from "react-time-ago";
 import style from "../styles/components/CommentCard.module.css"
 import BlankUser from "./BlankUser";
+import {useContext} from "react";
+import {AuthContext} from "../helpers/AuthContext";
 
-const CommentCard = ({content, key}) => {
+const CommentCard = ({content, handleDelete}) => {
+
+	const {authState, setAuthState} = useContext(AuthContext)
+
+
 	return (
 		<div className={style.container}>
 			<div className={style.profilePicContainer}>
 				<div className={style.profilePic}>
-					<BlankUser />
+					<BlankUser/>
 				</div>
 			</div>
 			<div className={style.contentContainer}>
@@ -19,12 +25,16 @@ const CommentCard = ({content, key}) => {
 					{content.commentBody}
 				</span>
 				<div className={style.controls}>
-					<ReactTimeAgo date={new Date(content.createdAt)} timeStyle={"mini"} />
+					<ReactTimeAgo date={new Date(content.createdAt)} timeStyle={"mini"}/>
 					<a href="#">Reply</a>
 				</div>
 			</div>
 			<div className={style.likeContainer}>
 				3
+				{
+					authState.username === content.username &&
+					<button onClick={() => handleDelete(content.id)}>x</button>
+				}
 			</div>
 		</div>
 	);

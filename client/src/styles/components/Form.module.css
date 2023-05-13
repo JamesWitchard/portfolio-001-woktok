@@ -38,8 +38,8 @@
     font-size: 1.125rem;
 }
 
-.form>input:last-of-type {
-    margin-bottom: 2rem;
+.form>button:last-of-type {
+    margin-top: 2rem;
 }
 
 .btn {

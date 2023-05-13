@@ -1,33 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import {AuthContext} from "../helpers/AuthContext";
 import RecipeCard from "../components/RecipeCard";
 import style from "../styles/pages/Recipe.module.css";
 import CommentCard from "../components/CommentCard";
-import ReactTimeAgo from "react-time-ago";
-import BlankUser from "../components/BlankUser";
+import RecipeInfo from "../components/RecipeInfo";
 
-const Recipe= () => {
+
+const Recipe = () => {
 	const [recipeData, setRecipeData] = useState({});
 	const [recipeCreatedDate, setRecipeCreatedDate] = useState(new Date());
-	const [commentsData, setCommentsData] = useState([])
+	const [commentsData, setCommentsData] = useState([]);
+	const [userTagsData, setUserTagsData] = useState([]);
 	const [pageUrl, setPageUrl] = useState("");
 	const [commentInput, setCommentInput] = useState("")
+
+	const {setSidebarVisible} = useContext(AuthContext);
 
 	let {id} = useParams();
 
 	// Button handlers
-	const handleCopyToClipboard = () => {
-		try{
-			navigator.clipboard.writeText(pageUrl).then(r => console.log("Text Copied"));
-		} catch (err) {
-			console.log(err)
-		}
-	}
-
 	const handleSubmitComment = () => {
 		if (commentInput === "") return;
-
+		console.log(id)
 		axios.post("http://localhost:3001/comments",{
 			commentBody: commentInput,
 			RecipeId: id
@@ -39,6 +35,7 @@ const Recipe= () => {
 			if (res.data.error)
 				console.log(res.data.error)
 			else {
+				console.log(res.data)
 				const addedCommentTime = new Date();
 				const newComment = {
 					commentBody: commentInput,
@@ -52,6 +49,17 @@ const Recipe= () => {
 		})
 	}
 
+	const handleDeleteComment = (commentId) => {
+		axios.delete(`http://localhost:3001/comments/${commentId}`, {
+			headers: {
+				accessToken: localStorage.getItem("accessToken")
+			}
+		}).then((res) => {
+			setCommentsData(commentsData.filter(val => val.id !== commentId));
+		});
+
+	};
+
 	// Fetch data from database
 	useEffect(() => {
 		axios.get(`http://localhost:3001/recipes/${id}`).then((res) => {
@@ -59,13 +67,23 @@ const Recipe= () => {
 			setRecipeCreatedDate(new Date(res.data.createdAt));
 		});
 		axios.get(`http://localhost:3001/comments/${id}`).then((res) =>{
+			if (res.data.error) return;
 			setCommentsData(res.data);
+        })
+		axios.get(`http://localhost:3001/tags/${id}`).then((res) => {
+			if (res.data.error) return;
+			console.log(res.data);
+			setUserTagsData(res.data);
 		})
 	}, []);
 
 	// Setup page variables
 	useEffect(() => {
 		setPageUrl(window.location.href);
+		setSidebarVisible(false);
+		return () => {
+			setSidebarVisible(true);
+		};
 	})
 
 	return (
@@ -76,60 +94,14 @@ const Recipe= () => {
 				</div>
 			</div>
 			<div className={style.sidebarContainer}>
-				<div className={style.postInfo}>
-					<div className={style.authorInfo}>
-						<div className={style.profilePic}>
-							<BlankUser />
-						</div>
-						<div className={style.author}>
-							<span className={style.authorUsername}>{recipeData.author}</span>
-							<div className={style.authorProfile}>
-								<span className={style.authorName}>Real Name</span>
-								·
-								<ReactTimeAgo date={recipeCreatedDate} timeStyle={"mini"} />
-							</div>
-						</div>
-						<button>Follow</button>
-					</div>
-					<div className={style.descriptionSection}>
-						<span className={style.description}>
-							{recipeData.descriptionText ? recipeData.descriptionText :
-								"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, unde! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab repellat soluta velit. Inventore, iure totam."}
-
-						</span>
-						<div className={style.hashtags}>
-							<span className={style.important}>Example</span>
-							<span className={style.important}>Viral</span>
-							<span>Steak</span>
-							<span>Kidney</span>
-							<span>dinner</span>
-							<span>meal</span>
-						</div>
-					</div>
-					<div className={style.shareSection}>
-						<div className={style.embeds}>
-							<div className={style.stats}>
-								<button>Likes</button>
-								<button>Comments</button>
-							</div>
-							<div className={style.sharing}>
-								<button>Embed</button>
-								<button>Friends</button>
-								<button>WhatsApp</button>
-								<button>FaceBook</button>
-								<button>Twitter</button>
-								<button>Other</button>
-							</div>
-						</div>
-						<div className={style.copyLink}>
-							<span>{pageUrl}</span>
-							<button onClick={handleCopyToClipboard}>Copy Link</button>
-						</div>
-					</div>
-				</div>
+				<RecipeInfo recipeData={recipeData}
+							userTags={userTagsData}
+				            date={recipeCreatedDate}
+				            pageUrl={pageUrl}
+				/>
 				<div className={style.commentsSection}>
 					{commentsData.map((comment, id) => {
-						return <CommentCard key={id} content={comment}/>;
+						return <CommentCard key={id} content={comment} handleDelete={handleDeleteComment}/>;
 					})}
 				</div>
 				<div className={style.addComment}>

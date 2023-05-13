@@ -1,6 +1,9 @@
 .recipeCard {
+    --margin-offset: 4rem;
+
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     padding: 1rem 2rem;
     margin-bottom: 4rem;
     background-color: #fff;
@@ -16,12 +19,18 @@
 
 .dishContainer {
     margin-bottom: 1.25rem;
-    margin-left: 5rem;
+    margin-left: var(--margin-offset);
+}
+
+.ingredientsContainer {
+    margin-left: var(--margin-offset);
+    margin-bottom: 2rem;
 }
 
 .directionsContainer {
-    margin-left: 5rem;
+    margin-left: var(--margin-offset);
     flex-grow: 1;
+    margin-bottom: 2rem;
 }
 
 .directionsContainer li {

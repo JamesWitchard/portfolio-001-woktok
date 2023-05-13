@@ -1,22 +1,25 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup'
 import axios from "axios";
 import pageStyle from '../styles/pages/AddRecipe.module.css'
 import formStyle from '../styles/components/Form.module.css'
+import {AuthContext} from "../helpers/AuthContext";
+import HashtagField from "../components/HashtagField";
 
 const AddRecipe = () => {
 
 	const [ingredientsList, setIngredientsList] = useState([]);
 	const [directionsList, setDirectionsList] = useState([]);
+	const [hashtags, setHashtags] = useState([]);
+	const {authState} = useContext(AuthContext);
 
 	const initialValues = {
 		dish: "",
 		description: "",
 		ingredient: "",
 		direction: "",
-		author: ""
 	}
 
 	const validationSchema = Yup.object().shape({
@@ -24,7 +27,6 @@ const AddRecipe = () => {
 		description: Yup.string(),
 		ingredient: Yup.string(),
 		direction: Yup.string(),
-		author: Yup.string().required()
 	});
 
 	let navigate = useNavigate();
@@ -44,6 +46,14 @@ const AddRecipe = () => {
 		}))
 	}
 
+	const handleAddHashtag = (newHashtag) => {
+	    setHashtags([...hashtags, newHashtag]);
+	};
+
+	const handleDeleteHashtag = (hashtagId) => {
+		setHashtags(hashtags.filter((hashtag, index) => index !== hashtagId));
+	}
+
 	const onSubmit = (data, {setSubmitting, setFieldError}) => {
 		try {
 			if (ingredientsList.length === 0) {
@@ -58,9 +68,16 @@ const AddRecipe = () => {
 				"dish": data.dish,
 				"descriptionText": data.description,
 				"directions": directionsList,
+				"userTags": hashtags,
 				"author": data.author
-			}).then((res) => {
+			},
+				{
+					headers: {
+						accessToken: localStorage.getItem("accessToken"),
+                    }
+				}).then((res) => {
 				console.log("Recipe submitted successfully.")
+				console.log(res.data);
 				navigate("/");
 			})
 		} catch (error) {
@@ -70,6 +87,12 @@ const AddRecipe = () => {
 		}
 
 	}
+
+	useEffect(() => {
+		if(!localStorage.getItem("accessToken")) {
+			navigate("/login");
+		}
+	}, [])
 
 	return (
 		<div className={formStyle.container}>
@@ -132,9 +155,9 @@ const AddRecipe = () => {
 							<button className={formStyle.btn} disabled={!values.direction} type="button"
 							        onClick={() => addDirection(values.direction, setFieldValue)}>+</button>
 						</div>
-						<label className={formStyle.required}>Author:</label>
-						<ErrorMessage name="author" component="span"/>
-						<Field id="inputAuthorName" name="author" placeholder="Richard"/>
+						<label>Tags:</label>
+						<HashtagField hashtags={hashtags} handleAddHashtag={handleAddHashtag}
+						              handleDeleteHashtag={handleDeleteHashtag} placeholder="Add tags here..."/>
 
 						<div className={pageStyle.spacer}> </div>
 

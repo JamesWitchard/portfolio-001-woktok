@@ -1,0 +1,54 @@
+.container {
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    background-color: #fff;
+    padding: 0.5rem;
+    border: 1px solid black;
+    flex-wrap: wrap;
+}
+
+.inputContainer:focus-within {
+    outline: -webkit-focus-ring-color auto 1px;
+}
+
+.inputContainer>input {
+    flex: 1;
+    width: 100%;
+    font-size: 1.125rem;
+    cursor: text;
+    background-color: transparent;
+    border: none;
+    margin-left: 0.25rem;
+}
+
+.inputContainer>input:focus {
+    outline: none;
+}
+
+.hashtag {
+    display: flex;
+    padding: 0.25rem 0.5rem;
+    border-radius: 2rem;
+    height: fit-content;
+    background-color: forestgreen;
+    user-select: none;
+    cursor: pointer;
+    color: #fff;
+    white-space: nowrap;
+    margin-right: 0.125rem;
+    margin-bottom: 0.125rem;
+}
+
+.hashtag:before {
+    content: "#";
+}
+
+
+.hashtag:hover {
+    text-decoration: line-through;
+}
+

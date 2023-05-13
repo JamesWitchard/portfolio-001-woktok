@@ -28,8 +28,12 @@ const Login = () => {
 				setErrors(res.data.error);
 				return;
 			}
-			localStorage.setItem("accessToken", res.data);
-			setAuthState(true);
+			localStorage.setItem("accessToken", res.data.token);
+			setAuthState({
+				username: res.data.username,
+				id: res.data.id,
+				status: true
+			});
 			navigator("/");
 		});
 	};

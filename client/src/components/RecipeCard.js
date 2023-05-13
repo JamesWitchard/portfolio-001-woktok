@@ -10,7 +10,11 @@ const RecipeCard = ({recipeData, classOverride}) => {
 					<h1>{recipeData.dish}</h1>
 					<h3>{recipeData.descriptionText}</h3>
 				</div>
+				<div className={style.ingredientsContainer}>
+					<span>Ingredients</span>:
+				</div>
 				<div className={style.directionsContainer}>
+					<span>Directions:</span>
 					<ol>
 						{recipeData.directions?.map((direction, ind) => {
 							return <li>{direction}</li>;

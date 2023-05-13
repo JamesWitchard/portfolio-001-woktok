@@ -1,0 +1,36 @@
+.container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    min-width: max-content;
+    border-radius: 1rem;
+}
+
+.container>*:hover {
+    background-color: #abced4;
+}
+
+.up {
+    left: 0.5rem;
+    bottom: 120%;
+}
+
+.down {
+    left: 0.5rem;
+    top: 120%;
+}
+
+.left {
+    top: 0.5rem;
+    right: 120%;
+}
+
+.right {
+    top: 0.5rem;
+    left: 120%;
+}
+
+
